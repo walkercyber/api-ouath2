@@ -1,0 +1,6 @@
+@NordloSolar.WebApi_HostAddress = http://localhost:5237
+
+GET {{NordloSolar.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

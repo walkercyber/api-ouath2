@@ -1,0 +1,7 @@
+﻿
+
+GET https://auth.smaapis.de/oauth2/auth
+    ?client_id=nordlo_api
+    &response_type=code
+    &redirect_uri=https://nordlo-solar.azurewebsites.net/oauth/callback
+    &state=randomstatevalue
