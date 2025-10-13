@@ -27,7 +27,6 @@ public class Program
 
         app.UseHttpsRedirection();
 
-        //Endpoints
         app.MapGet("/", () => Results.Ok("API is running"));
         app.MapOAuthEndpoints();
 
