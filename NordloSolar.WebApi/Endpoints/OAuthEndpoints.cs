@@ -8,9 +8,9 @@ public static class OAuthEndpoints
     public static void MapOAuthEndpoints(this IEndpointRouteBuilder app)
     {
         app.MapGet("/oauth/callback", async (
-          HttpContext context,
-          IOptions<OAuthOptions> oAuthOptions,
-          IHttpClientFactory httpClientFactory) =>
+            HttpContext context,
+            IOptions<OAuthOptions> oAuthOptions,
+            IHttpClientFactory httpClientFactory) =>
         {
             var code = context.Request.Query["code"];
             if (string.IsNullOrEmpty(code))
@@ -37,5 +37,32 @@ public static class OAuthEndpoints
             var tokenResponse = await response.Content.ReadAsStringAsync();
             return Results.Ok(tokenResponse);
         });
+
+        app.MapGet("/oauth/step1", async (
+            IOptions<OAuthOptions> oauthOptions,
+            IHttpClientFactory httpClientFactory) =>
+        {
+            var options = oauthOptions.Value;
+            var client = httpClientFactory.CreateClient();
+
+            var values = new Dictionary<string, string>
+            {
+                { "client_id", options.ClientId },
+                { "response_type", "code" },
+                { "redirect_uri", options.RedirectUri },
+                { "state", "abc" }
+            };
+
+            var content = new FormUrlEncodedContent(values);
+            var response = await client.PostAsync(options.TokenEndpoint, content);
+
+            if (!response.IsSuccessStatusCode)
+                return Results.Problem("Step 1 error", statusCode: (int)response.StatusCode);
+
+            var tokenResponse = await response.Content.ReadAsStringAsync();
+            return Results.Ok(tokenResponse);
+        })
+        .WithName("OAuthStep1")
+        .WithOpenApi();
     }
 }

@@ -1,0 +1,13 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<form method="get" action="https://sandbox-auth.smaapis.de/oauth2/auth">
+    <input type="hidden" name="client_id" value="Nordlo" />
+    <input type="hidden" name="response_type" value="code" />
+    <input type="hidden" name="redirect_uri" value="https://nordlo-solar.azurewebsites.net/oauth/callback" />
+    <input type="hidden" name="state" value="abc" />
+    <button type="submit">Submit</button>
+</form>
+
+

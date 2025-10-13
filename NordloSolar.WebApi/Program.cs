@@ -1,4 +1,3 @@
-
 using Microsoft.Extensions.Options;
 using NordloSolar.WebApi.Config;
 using NordloSolar.WebApi.Endpoints;
@@ -20,7 +19,6 @@ public class Program
 
         var app = builder.Build();
 
-        // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
@@ -30,6 +28,7 @@ public class Program
         app.UseHttpsRedirection();
 
         app.MapGet("/", () => Results.Ok("API is running"));
+
         app.MapOAuthEndpoints();
 
         app.Run();
