@@ -11,5 +11,5 @@ This project consists of two components:
 
 The goal of this project is to:
 - Authenticate users using the **OAuth 2.0 Authorization Code Flow**
-- Exchange the received authorization `code` for an **access token**
+- Exchange the received authorization **code** for an `access token`
 - Enable the web client to use that access token when accessing protected resources through the API
