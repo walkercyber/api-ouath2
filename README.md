@@ -1,4 +1,4 @@
-### Solar OAuth2 API & Web App
+### OAuth2 API & Web App
 
 This project consists of two components:
 
