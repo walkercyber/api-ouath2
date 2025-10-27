@@ -11,4 +11,4 @@ client_id={{client_id}}&client_secret={{client_secret}}&grant_type=client_creden
 
 
 ###
-GET https://nordlo-solar.azurewebsites.net/oauth/step1
+GET https://nordlo-solar.azurewebsites.net/oauth/access

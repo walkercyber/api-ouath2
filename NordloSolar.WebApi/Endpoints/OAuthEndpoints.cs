@@ -32,37 +32,27 @@ public static class OAuthEndpoints
             var response = await client.PostAsync(options.TokenEndpoint, content);
 
             if (!response.IsSuccessStatusCode)
-                return Results.Problem("Token endpoint error", statusCode: (int)response.StatusCode);
-
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                return Results.Problem(
+                    detail: $"Token endpoint error: {errorContent}",
+                    statusCode: (int)response.StatusCode
+                );
+            }
             var tokenResponse = await response.Content.ReadAsStringAsync();
             return Results.Ok(tokenResponse);
         });
 
-        app.MapGet("/oauth/step1", async (
-            IOptions<OAuthOptions> oauthOptions,
-            IHttpClientFactory httpClientFactory) =>
+        app.MapGet("/oauth/access", async (
+                     HttpContext context) =>
         {
-            var options = oauthOptions.Value;
-            var client = httpClientFactory.CreateClient();
+            var token = context.Request.Query["token"];
+            if (string.IsNullOrEmpty(token))
+                return Results.BadRequest("Missing token");
 
-            var values = new Dictionary<string, string>
-            {
-                { "client_id", options.ClientId },
-                { "response_type", "code" },
-                { "redirect_uri", options.RedirectUri },
-                { "state", "abc" }
-            };
-
-            var content = new FormUrlEncodedContent(values);
-            var response = await client.PostAsync(options.TokenEndpoint, content);
-
-            if (!response.IsSuccessStatusCode)
-                return Results.Problem("Step 1 error", statusCode: (int)response.StatusCode);
-
-            var tokenResponse = await response.Content.ReadAsStringAsync();
-            return Results.Ok(tokenResponse);
+            return Results.Ok(token);
         })
-        .WithName("OAuthStep1")
-        .WithOpenApi();
+                 .WithName("OAuthAccessToken")
+                 .WithOpenApi();
     }
 }
