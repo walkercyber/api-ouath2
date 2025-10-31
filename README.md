@@ -36,7 +36,7 @@ This implementation follows the **Authorization Code Grant Flow**, which is the 
 ```text
  ┌────────────┐          ┌────────────────┐          ┌──────────────┐
  │  Web App   │          │  SMA Auth API  │          │   Web API    │
- └─────┬──────┘          └──────┬─────────┘          └──────┬──────┘
+ └─────┬──────┘          └──────┬─────────┘          └──────┬───────┘
        │ (1) Login → Redirect   │                           │
        ├────────────────────────>                           │
        │                         │                          │
